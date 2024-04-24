@@ -27,9 +27,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "rollup-plugin-inject": "^3.0.0"
-  },
-  "devDependencies": {
+    "rollup-plugin-inject": "^3.0.0",
     "browserify-fs": "^1.0.0",
     "buffer-es6": "^4.9.2",
     "crypto-browserify": "^3.11.0",
