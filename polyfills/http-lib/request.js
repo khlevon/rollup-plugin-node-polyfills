@@ -132,80 +132,23 @@ ClientRequest.prototype._onFinish = function() {
     }
   }
 
-  if (self._mode === 'fetch') {
-    var headers = Object.keys(headersObj).map(function(name) {
-      return [headersObj[name].name, headersObj[name].value]
-    })
+  var headers = Object.keys(headersObj).map(function(name) {
+    return [headersObj[name].name, headersObj[name].value]
+  })
 
-    global.fetch(self._opts.url, {
-      method: self._opts.method,
-      headers: headers,
-      body: body,
-      mode: 'cors',
-      credentials: opts.withCredentials ? 'include' : 'same-origin'
-    }).then(function(response) {
-      self._fetchResponse = response
-      self._connect()
-    }, function(reason) {
-      self.emit('error', reason)
-    })
-  } else {
-    var xhr = self._xhr = new global.XMLHttpRequest()
-    try {
-      xhr.open(self._opts.method, self._opts.url, true)
-    } catch (err) {
-      process.nextTick(function() {
-        self.emit('error', err)
-      })
-      return
-    }
-
-    // Can't set responseType on really old browsers
-    if ('responseType' in xhr)
-      xhr.responseType = self._mode.split(':')[0]
-
-    if ('withCredentials' in xhr)
-      xhr.withCredentials = !!opts.withCredentials
-
-    if (self._mode === 'text' && 'overrideMimeType' in xhr)
-      xhr.overrideMimeType('text/plain; charset=x-user-defined')
-
-    Object.keys(headersObj).forEach(function(name) {
-      xhr.setRequestHeader(headersObj[name].name, headersObj[name].value)
-    })
-
-    self._response = null
-    xhr.onreadystatechange = function() {
-      switch (xhr.readyState) {
-      case rStates.LOADING:
-      case rStates.DONE:
-        self._onXHRProgress()
-        break
-      }
-    }
-      // Necessary for streaming in Firefox, since xhr.response is ONLY defined
-      // in onprogress, not in onreadystatechange with xhr.readyState = 3
-    if (self._mode === 'moz-chunked-arraybuffer') {
-      xhr.onprogress = function() {
-        self._onXHRProgress()
-      }
-    }
-
-    xhr.onerror = function() {
-      if (self._destroyed)
-        return
-      self.emit('error', new Error('XHR error'))
-    }
-
-    try {
-      xhr.send(body)
-    } catch (err) {
-      process.nextTick(function() {
-        self.emit('error', err)
-      })
-      return
-    }
-  }
+  global.fetch(self._opts.url, {
+    method: self._opts.method,
+    headers: headers,
+    body: body,
+    mode: 'cors',
+    credentials: opts.withCredentials ? 'include' : 'same-origin'
+  }).then(function(response) {
+    self._fetchResponse = response
+    self._connect()
+  }, function(reason) {
+    self.emit('error', reason)
+  })
+  
 }
 
 /**
