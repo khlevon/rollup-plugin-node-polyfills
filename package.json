@@ -14,7 +14,8 @@
     "build:constants": "node scripts/build-constants.js",
     "release": "np --no-yarn --no-release-draft",
     "browser-test": "serve browser-test/dist",
-    "prebrowser-test": "npm run build && node ./browser-test/index.js"
+    "prebrowser-test": "npm run build && node ./browser-test/index.js",
+    "postinstall": "npm run build"
   },
   "files": [
     "dist",
