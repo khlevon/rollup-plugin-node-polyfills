@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-node-polyfills",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/types/index.d.ts",
@@ -14,8 +14,7 @@
     "build:constants": "node scripts/build-constants.js",
     "release": "np --no-yarn --no-release-draft",
     "browser-test": "serve browser-test/dist",
-    "prebrowser-test": "npm run build && node ./browser-test/index.js",
-    "postinstall": "npm run build"
+    "prebrowser-test": "npm run build && node ./browser-test/index.js"
   },
   "files": [
     "dist",
@@ -27,7 +26,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "rollup-plugin-inject": "^3.0.0",
+    "rollup-plugin-inject": "^3.0.0"
+  },
+  "devDependencies": {
     "browserify-fs": "^1.0.0",
     "buffer-es6": "^4.9.2",
     "crypto-browserify": "^3.11.0",
